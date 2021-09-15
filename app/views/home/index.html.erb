@@ -2,7 +2,18 @@
 <p>Find me in app/views/home/index.html.erb</p>
 
 <% if current_user %>
-  Logged in as <%= current_user.email %>.
+  <p>Logged in as <%= current_user.email %>.</p>
+
+  <h2>User Details</h2>
+  <% if current_user.user_name %>
+    <p>Name <%= current_user.user_name %>.</p>
+  <% end %>
+
+  <% if current_user.image %>
+    <%= image_tag current_user.image %>
+  <% end %>
+
+  <br/> 
   <%= link_to "Log Out", logout_path %>
 <% else %>
   <%= link_to "Log In", login_path %> or

@@ -4,9 +4,9 @@ class SessionsController < ApplicationController
   def new; end
 
   def create
-    user = User.find_by(email: params[:email])
-    if user&.authenticate(params[:password])
-      session[:user_id] = user.id
+    @user = User.find_by(email: params[:email])
+    if @user&.authenticate(params[:password])
+      session[:user_id] = @user.id
       redirect_to root_url, notice: 'You are logged in.'
     else
       flash.now[:alert] = 'Your email or password is invalid'
@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
     @user = User.from_omniauth(auth)
     @user.save
     session[:user_id] = @user.id
-    redirect_to home_path
+    redirect_to root_url, notice: 'You are logged in.'
   end
 
   private
