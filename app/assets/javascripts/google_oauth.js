@@ -6,7 +6,16 @@ var _onGoogleLoad = function () {
             client_id: '930432434977-ugm0oqsp81du5d1rs9or8mvb1grmmi85.apps.googleusercontent.com',
             scope: 'email',
             fetch_basic_profile: false
-        })
+        }).then(function(auth2) {
+
+            // If the user is already signed in
+            if (auth2.isSignedIn.get()) {
+                var googleUser = auth2.currentUser.get();
+
+                // Change user's profile information
+                changeProfile(googleUser);
+            }
+        });
         _enableGoogleButton()
     })
 }
@@ -31,12 +40,12 @@ window.onload = function(){
     const changeProfile = function(googleUser) {
         if (googleUser) {
             let profile = googleUser.getBasicProfile();
-            profile = {
+            let user = {
                 name: profile.getName(),
                 email: profile.getEmail(),
                 imageUrl: profile.getImageUrl()
             };
-            let session = new Session(profile)
+            let session = new Session(user)
             session.create()
         } else {
             Session.destroy()
